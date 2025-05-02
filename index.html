@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .title{
+            font-family: Arial, Helvetica, sans-serif;
+            color: limegreen;
+        }
+        .input{
+            width: 60%;
+
+
+        }
+        #errorMessage{
+            margin-bottom:5px ;
+            font-family: Arial, Helvetica, sans-serif;
+            color: red ;
+            font-size:0.7rem;
+            display: none;
+        }
+        .numberInput{
+            border: 2px solid limegreen;
+            width: 70%;
+            height: 30px;
+        }
+        .generateBtn{
+            width: 25%;
+            height: 36px;
+            border: 2px solid limegreen;
+            background-color: limegreen;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .numbers{
+            width: 70%;
+            display: flex;
+            flex-direction: row;
+            margin-top:20px;
+            flex-wrap: wrap;
+        }
+        .box{
+            width: 11%;
+            height: 35px;
+            /* background-color: aqua; */
+            display: flex;
+            justify-content: center; /* Yatayda ortalamak için */
+            align-items: center; /* Dikeyde ortalamak için */
+            margin: 4px;
+        }
+        .number{
+            font-family: Arial, Helvetica, sans-serif;
+            color: #fff;
+            font-size:1.5rem ;
+            
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text">
+            <h1 class="title">
+                Number Generator
+            </h1>
+        </div>
+        <div class="input">
+            <p id="errorMessage">Lütfen sadece sayı girin.</p>
+            <input type="text" class="numberInput" placeholder="Generate More Numbers...">
+            <button class="generateBtn">Generate Numbers</button>
+        </div>
+        <div class="numbers">
+            <div class="box">                
+                    <span class="number">
+                        
+                    </span>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <script>
+        document.querySelector(".generateBtn").addEventListener("click", function() {
+            const inputValue = document.querySelector(".numberInput").value;
+            const regex = /^[0-9]+$/; // Sadece rakamlar
+
+            if (regex.test(inputValue)) {
+                console.log("Geçerli sayı: ", inputValue);
+                document.querySelector("#errorMessage").style.display = "none"; // #errorMessage ile id'yi seçiyoruz
+            } else {
+                console.log("Hata: Sadece sayılar girilebilir!");
+                document.querySelector("#errorMessage").style.display = "block"; // Hata mesajını gösteriyoruz
+            }
+            const numberValue = parseInt(inputValue, 10);  // 10, ondalıklı sayılar için taban belirtir
+            const numbersContainer = document.querySelector('.numbers');
+            numbersContainer.innerHTML = "";  // Önceki sayıları temizle
+            //Asallik Kontrol Fonksiyonu
+            function isPrime(num) {
+            if (num <= 1) return false; // 1 ve daha küçük sayılar asal değildir.
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) {
+                    return false; // Eğer num, i'ye tam bölünüyorsa asal değildir.
+                }
+            }
+            return true; // Hiçbir sayıya bölünmediyse asal sayıdır.
+            }
+            //ciftlik Kontrol Fonksiyonu
+            function isEven(num){
+                if(num%2===0){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+            for (let i = 0; i <= numberValue; i++) {
+                const newBox = document.createElement('div');
+                newBox.classList.add('box');
+                
+                // Sayının asal olup olmadığını kontrol et
+                if (isPrime(i)) {
+                    newBox.style.backgroundColor = 'red'; // Asalsa arka plan yeşil
+                } else {
+                    if(isEven(i)){
+                        newBox.style.backgroundColor = 'limegreen'; // Asalsa arka plan yeşil
+                    }else{
+                        newBox.style.backgroundColor = 'yellow'
+                    }
+                }
+
+                const newNumber = document.createElement('span');
+                newNumber.classList.add('number');
+                newNumber.textContent = i;
+
+                newBox.appendChild(newNumber);
+                numbersContainer.appendChild(newBox);
+            }
+        });
+
+    </script>
+</body>
+</html>
