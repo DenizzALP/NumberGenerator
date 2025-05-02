@@ -1,5 +1,3 @@
-https://github.com/DenizzALP/NumberGenerator.git
-
 # Number Generator
 
 This is a small side project that visualizes numbers from 0 up to a user-defined limit. The application classifies each number as:
